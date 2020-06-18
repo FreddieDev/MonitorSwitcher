@@ -4,7 +4,7 @@ A simple project I've made to switch my monitor's input from my work laptop to m
 I often work faster on my desktop, however I need to use the work laptop for sensitive data.
 
 ## Setup
-* Run script on both computers
+* Run script on laptop only (for brightness controlling)
 * Edit the script's variables to use the correct input ints. These can be obtained by double clicking the script's taskbar icon
 * Connect work laptop to desktop's display
 * Set work laptop to duplicate screens mode
