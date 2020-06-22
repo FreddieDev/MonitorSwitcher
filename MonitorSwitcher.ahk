@@ -16,6 +16,7 @@ global defaultMonitorInput := 15 ; My desktop
 global altMonitorInput := 17 ; My work laptop
 
 ; Setup variables
+global hPhysMon :=
 global currentInput :=
 global maximumInput :=
 global Physical_Monitor :=
@@ -56,11 +57,10 @@ GetMonitorInfo() {
 
 	; Monitor handle, monitor array size, pointer to array with monitor
 	DllCall("dxva2\GetPhysicalMonitorsFromHMONITOR", "int", hMon, "uint", nMon, "int", &Physical_Monitor)
-
-	hPhysMon := NumGet(Physical_Monitor)
+	hPhysMon := NumGet(Physical_Monitor) ; So long as the user is only using one monitor (excluding laptop screen) the monitor handle array can be casted to a singular handle
 
 	DllCall("dxva2\GetVCPFeatureAndVCPFeatureReply"
-			, "int", handle
+			, "int", hPhysMon
 			, "char", 0x60 ; VCP code for Input Source Select
 			, "Ptr", 0
 			, "uint*", currentInput
@@ -77,7 +77,7 @@ SetMonitorInputSource(source) {
 	}
 	
 	DllCall("dxva2\SetVCPFeature"
-			, "int", handle
+			, "int", hPhysMon
 			, "char", 0x60 ; VCP code for Input Source Select
 			, "uint", source)
 }
@@ -107,4 +107,5 @@ MenuHandler:
 	} else {
 		SetMonitorInputSource(defaultMonitorInput)
 	}
+	reload
 	Return
